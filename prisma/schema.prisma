@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id           Int      @id @default(autoincrement())
+  userName     String   @unique @db.VarChar(191)
+  password     String   @db.VarChar(191)
+  email        String?  @unique @db.VarChar(191)
+  profileImage String?
+  birthDate    DateTime @db.Date
+  Posts        Posts[]
+  Joins        Joins[]
+}
+
+model Posts {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  locationId  Int
+  categoryId  Int
+  dueDate     DateTime @db.Date
+  description String?  @db.Text
+  joinLimit   Int
+
+  user     Users     @relation(fields: [userId], references: [id])
+  location Locations @relation(fields: [locationId], references: [id])
+  category Categorys @relation(fields: [categoryId], references: [id])
+  Joins    Joins[]
+}
+
+model Joins {
+  id     Int   @id @default(autoincrement())
+  userId Int
+  postId Int
+  post   Posts @relation(fields: [postId], references: [id])
+  user   Users @relation(fields: [userId], references: [id])
+}
+
+model Locations {
+  id      Int     @id @default(autoincrement())
+  image   String
+  name    String
+  phone   String  @unique
+  address String
+  Posts   Posts[]
+}
+
+model Categorys {
+  id      Int     @id @default(autoincrement())
+  beer    String
+  spirits String
+  wine    String
+  vodga   String
+  Posts   Posts[]
+}
