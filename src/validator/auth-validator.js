@@ -4,7 +4,8 @@ exports.registerSchema = Joi.object({
   userName: Joi.string().required().trim(),
   password: Joi.string()
     .required()
-    .pattern(/^[0-9]{10}$/),
+    // regex pattern
+    .pattern(/^[a-zA-Z0-9]{6,}$/),
   confirmPassword: Joi.string().required().valid(Joi.ref('password')).strip(),
   email: Joi.string().email({ tlds: false }),
   profileImage: Joi.string().uri(),

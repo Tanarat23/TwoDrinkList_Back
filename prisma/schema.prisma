@@ -23,7 +23,7 @@ model Posts {
   userId      Int
   locationId  Int
   categoryId  Int
-  dueDate     DateTime @db.Date
+  dueDate     DateTime @db.DateTime(5)
   description String?  @db.Text
   joinLimit   Int
 
@@ -45,16 +45,13 @@ model Locations {
   id      Int     @id @default(autoincrement())
   image   String
   name    String
-  phone   String  @unique
+  phone   String
   address String
   Posts   Posts[]
 }
 
 model Categorys {
   id      Int     @id @default(autoincrement())
-  beer    String
-  spirits String
-  wine    String
-  vodga   String
+  name    String
   Posts   Posts[]
 }
